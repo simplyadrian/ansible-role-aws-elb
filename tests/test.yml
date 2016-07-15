@@ -1,0 +1,28 @@
+---
+- name: test stack creation
+  hosts: test
+  vars:
+    aws_resource_tags: {
+      "Name" : "test-elb-name",
+      "unit" : "techops",
+      "product" : "infrastructure",
+      "subproduct" : "elb",
+      "owner" : "sysadmin@mgage.com"
+    }
+    region: us-west-2
+    aws_elb_instance_listeners: [{protocol: 'http',load_balancer_port: '80',instance_protocol: 'http',instance_port: '80'}]
+    aws_elb_subnets: ['subnet-2e293659']
+    aws_elb_security_group_ids: ['sg-04562b63']
+    aws_elb_ping_protocol: "tcp"
+    aws_elb_name: test-elb-name
+  roles:
+    - ansible-role-elb
+
+- name: test stack removal
+  hosts: test
+  vars:
+    aws_elb_name: test-elb-name
+    state: "absent"
+    region: us-west-2
+  roles:
+    - ansible-role-elb

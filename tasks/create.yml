@@ -1,0 +1,35 @@
+---
+# tasks file for aws-elb
+- name: create elb
+  ec2_elb_lb:
+    name: "{{ aws_elb_name }}"
+    subnets: "{{ aws_elb_subnets }}"
+    scheme: "{{ aws_elb_scheme | default('internet-facing') }}"
+    state: "{{ state | default('present') }}"
+    security_group_ids: "{{ aws_elb_security_group_ids }}"
+    region: "{{ region }}"
+    listeners: "{{ aws_elb_instance_listeners }}" # see defaults/
+    health_check:
+      ping_protocol: "{{ aws_elb_ping_protocol | default('HTTP') }}"
+      ping_port: "{{ aws_elb_ping_port | default('80') }}"
+      ping_path: "{{ aws_elb_ping_path | default('/') }}"
+      response_timeout: "{{ aws_elb_healthcheck_response_timeout | default(5) }}"
+      interval: "{{ aws_elb_healthcheck_interval | default(10) }}"
+      unhealthy_threshold: "{{ aws_elb_unhealthy_threshold | default(5) }}"
+      healthy_threshold: "{{ aws_elb_healthy_threshold | default (3) }}"
+    cross_az_load_balancing: "{{ aws_elb_cross_az_load_balancing | default('yes') }}"
+    connection_draining_timeout: "{{ aws_elb_draining_timeout | default(20) }}"
+    tags: "{{ aws_resource_tags }}"
+  register: aws_elb
+  tags: aws_elb
+
+#fix tag because ansible 1.0 doesn't support elb tag
+#https://github.com/ansible/ansible-modules-core/issues/439
+#- name: tag ELB
+#  shell: "aws --region {{ region }} elb add-tags --load-balancer-names {{aws_elb.elb.name}} --tags Key=Name,Value={{ aws_resource_tags.Name }} Key='mGage:unit',Value={{aws_resource_tags.unit}} Key='mGage:product',Value={{aws_resource_tags.product}} Key='mGage:subproduct', Value={{aws_resource_tags.subproduct}} Key='mGage:owner' Value={{aws_resource_tags.owner}}"
+
+- name: set fact ec2_load_balancer
+  set_fact: ec2_load_balancer="{{ aws_elb.elb.name }}"
+
+- name: set fact aws_elb_dns_name
+  set_fact: aws_elb_dns_name="{{ aws_elb.elb.dns_name }}"

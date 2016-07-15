@@ -1,0 +1,19 @@
+---
+# defaults file for aws-elb
+# to discove ssl_certificate_id
+# use aws iam get-server-certificate --server-certificate-name my-server-certificate
+aws_elb_instance_listeners: [
+  {
+    protocol: 'http',
+    load_balancer_port: '80',
+    instance_protocol: 'http',
+    instance_port: '80'
+  },
+  {
+    protocol: 'https',
+    load_balancer_port: '443',
+    instance_protocol: 'http',
+    instance_port: '80',
+    ssl_certificate_id: ''
+  }
+]

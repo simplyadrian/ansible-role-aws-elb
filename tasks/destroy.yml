@@ -1,0 +1,7 @@
+---
+# tasks file for aws-elb
+- name: destroy elb
+  ec2_elb_lb:
+    name: "{{ aws_elb_name }}"
+    state: "{{ state }}"
+    region: "{{ region }}"
