@@ -1,4 +1,4 @@
-#ansible-role-elb
+#ansible-role-aws-elb
 =========
 
 Manage AWS ELB.

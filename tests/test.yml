@@ -16,7 +16,7 @@
     aws_elb_ping_protocol: "tcp"
     aws_elb_name: test-elb-name
   roles:
-    - ansible-role-elb
+    - ansible-role-aws-elb
 
 - name: test stack removal
   hosts: test
@@ -25,4 +25,4 @@
     state: "absent"
     region: us-west-2
   roles:
-    - ansible-role-elb
+    - ansible-role-aws-elb
