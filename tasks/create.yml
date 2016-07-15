@@ -29,7 +29,9 @@
 #  shell: "aws --region {{ region }} elb add-tags --load-balancer-names {{aws_elb.elb.name}} --tags Key=Name,Value={{ aws_resource_tags.Name }} Key='mGage:unit',Value={{aws_resource_tags.unit}} Key='mGage:product',Value={{aws_resource_tags.product}} Key='mGage:subproduct', Value={{aws_resource_tags.subproduct}} Key='mGage:owner' Value={{aws_resource_tags.owner}}"
 
 - name: set fact ec2_load_balancer
-  set_fact: ec2_load_balancer="{{ aws_elb.elb.name }}"
+  set_fact:
+    ec2_load_balancer: "{{ aws_elb.elb.name }}"
 
 - name: set fact aws_elb_dns_name
-  set_fact: aws_elb_dns_name="{{ aws_elb.elb.dns_name }}"
+  set_fact:
+    aws_elb_dns_name: "{{ aws_elb.elb.dns_name }}"
