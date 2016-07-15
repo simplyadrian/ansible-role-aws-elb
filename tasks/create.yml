@@ -20,6 +20,7 @@
     cross_az_load_balancing: "{{ aws_elb_cross_az_load_balancing | default('yes') }}"
     connection_draining_timeout: "{{ aws_elb_draining_timeout | default(20) }}"
     tags: "{{ aws_resource_tags }}"
+    security_token: "{{ aws_elb_security_token | default(omit, true) }}"
   register: aws_elb
   tags: aws_elb
 
